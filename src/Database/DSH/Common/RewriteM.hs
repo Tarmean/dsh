@@ -67,8 +67,8 @@ failM msg = RewriteM (\n -> (n, Left msg))
 {-# INLINE failM #-}
 
 instance Monoid w => MonadCatch (RewriteM s w) where
-    catchM = catchRewriteM
-    {-# INLINE catchM #-}
+    catch = catchRewriteM
+    {-# INLINE catch #-}
 
 catchRewriteM :: RewriteM s w a -> (String -> RewriteM s w a) -> RewriteM s w a
 catchRewriteM (RewriteM st) f = RewriteM $ \ n -> case st n of
