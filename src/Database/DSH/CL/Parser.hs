@@ -47,21 +47,23 @@ module Database.DSH.CL.Parser
     , typedExpr
     ) where
 
-import           Control.Applicative
+-- import           Control.Applicative
 import           Control.Monad
 import           Data.List.NonEmpty       (NonEmpty ((:|)))
 import qualified Data.List.NonEmpty       as N
 import qualified Data.Text                as T
 
 import           Text.Megaparsec
-import qualified Text.Megaparsec.Lexer    as Lex
+import           Text.Megaparsec.Char
+import qualified Text.Megaparsec.Char.Lexer    as Lex
 
 import           Database.DSH.CL.Lang
 import qualified Database.DSH.Common.Lang as L
 import qualified Database.DSH.Common.Nat  as N
 import qualified Database.DSH.Common.Type as T
+import Data.Void
 
-type CLParser a = Parsec Dec String a
+type CLParser a = Parsec Void String a
 
 --------------------------------------------------------------------------------
 -- Lexer infrastructure
@@ -100,7 +102,7 @@ sep :: CLParser ()
 sep = spaceConsumer
 
 integerLit :: CLParser Int
-integerLit = fromIntegral <$> lexeme Lex.integer
+integerLit = fromIntegral <$> lexeme Lex.decimal
 
 boolLit :: CLParser Bool
 boolLit = kw "True" *> pure True <|> kw "False" *> pure False
